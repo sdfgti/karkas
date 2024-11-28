@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+      - ./php-app:/var/www/symfony
+      - ./node-app:/var/www/node
+      - ./python-app:/var/www/django
+    depends_on:
+      - php
+      - node
+      - python
+
+  php:
+    build: 
+      context: ./php-app
+      dockerfile: Dockerfile
+    volumes:
+      - ./php-app:/var/www/symfony
+    working_dir: /var/www/symfony
+    ports:
+      - "9000:9000"
+
+  node:
+    build: 
+      context: ./node-app
+      dockerfile: Dockerfile
+    volumes:
+      - ./node-app:/usr/src/app
+    working_dir: /usr/src/app
+    ports:
+      - "3000:3000"
+    command: npm start
+
+  python:
+    build:
+      context: ./python-app
+      dockerfile: Dockerfile
+    volumes: 
+      - ./python-app:/app
+    working_dir: /app
+    ports:
+      - "8001:8000"
+    command: python manage.py runserver 0.0.0.0:8000
