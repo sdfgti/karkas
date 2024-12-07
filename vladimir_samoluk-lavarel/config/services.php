@@ -34,5 +34,15 @@ return [
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
     ],
+    'keycloak' => [
+        'base_url' => env('https://localhost:7080/auth'),
+        'realm' => env('realm_key'),
+        'client_id' => env('laravel-app'),
+        'client_secret' => env('aeE7YzlHuSX6HVl1JpkuEdHcbBSzfadA'),
+        'redirect' => env('http://localhost:7080/callback'),
+        'public_key' => env('-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAyQJNw/te9ovDnxxqyZXFpPCXYvV6/ZFjVlrYj9+Z14pdEmfmtOws3lgjMTWY0jEJbU9ly1+962U9EG5UWiO32YEZHgdoWBdWGoa6pX3Xxu7NXmSP0Df/xN64IQE7i6mgC1TmHIw5bHQyFr12/z0auRD8CK+A0rZqChxT3LschfVv2GnnbrdYK3m7gZ4DkRUz8//hGDXH0sfFq/ZxUVxLWe9DdrezcYEu04TjvRtR6LgnDupxyVsO9JoTrSn9EfkKzEUa7FzEjwxznpltB+wcndy4XddlUVXfa3yUVss5kMWqSfo5pjTAiH0ehkkTUtSd6IMFxYA0BetJYSzT3asChQIDAQAB\n-----END PUBLIC KEY-----'),
+        'token_url' => env('KEYCLOAK_BASE_URL') . '/realms/' . env('KEYCLOAK_REALM') . '/protocol/openid-connect/token',
+        'logout_url' => env('KEYCLOAK_BASE_URL') . '/realms/' . env('KEYCLOAK_REALM') . '/protocol/openid-connect/logout',
+    ],
 
 ];

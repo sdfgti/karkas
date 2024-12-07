@@ -6,9 +6,20 @@ use App\Models\Subscriber;
 use Illuminate\Http\Request;
 use App\Http\Resources\SubscriberResource;
 use App\Http\Resources\SubscriberCollection;
+use Illuminate\Routing\Controller;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
 
 class SubscriberController extends Controller
 {
+    use AuthorizesRequests, ValidatesRequests, DispatchesJobs;
+
+    public function __construct()
+    {
+        $this->middleware(\App\Http\Middleware\KeycloakMiddleware::class);
+    }
+
     public function index()
     {
         $subscribers = Subscriber::paginate(10);
