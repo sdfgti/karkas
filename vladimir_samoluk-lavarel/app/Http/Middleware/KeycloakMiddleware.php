@@ -12,7 +12,7 @@ class KeycloakMiddleware
     {
         // Get realm roles
         $realmRoles = $payload['realm_access']['roles'] ?? [];
-        
+
         // Get client-specific roles
         $clientRoles = [];
         if (isset($payload['resource_access'])) {
@@ -34,17 +34,17 @@ class KeycloakMiddleware
         ]);
 
         // Administrator has full access
-        if (in_array('administrator', $userRoles)) {
+        if (in_array('admin', $userRoles)) {
             return true;
         }
 
-        // subscription-adm has full access
-        if (in_array('subscription-adm', $userRoles)) {
+        // subscription_admin has full access
+        if (in_array('subscription_admin', $userRoles)) {
             return true;
         }
 
-        // subscription-cli can only GET
-        if (in_array('subscription-cli', $userRoles)) {
+        // subscription_client can only GET
+        if (in_array('subscription_client', $userRoles)) {
             return $method === 'GET';
         }
 
@@ -59,17 +59,17 @@ class KeycloakMiddleware
         ]);
 
         // Administrator has full access
-        if (in_array('administrator', $userRoles)) {
+        if (in_array('admin', $userRoles)) {
             return true;
         }
 
-        // subscriber-adm has full access
-        if (in_array('subscriber-adm', $userRoles)) {
+        // subscribers_admin has full access
+        if (in_array('subscribers_admin', $userRoles)) {
             return true;
         }
 
-        // subscriber-cli can only GET
-        if (in_array('subscriber-cli', $userRoles)) {
+        // subscribers_client can only GET
+        if (in_array('subscribers_client', $userRoles)) {
             return $method === 'GET';
         }
 
@@ -116,14 +116,6 @@ class KeycloakMiddleware
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Insufficient permissions',
-                    'details' => [
-                        'user_roles' => $userRoles,
-                        'path' => $path,
-                        'method' => $method,
-                        'required_roles' => $method === 'GET' 
-                            ? ['administrator', 'subscription-adm', 'subscription-cli']
-                            : ['administrator', 'subscription-adm']
-                    ]
                 ], 403);
             }
 
